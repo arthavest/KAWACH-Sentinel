@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KAWACH Sentinel (KWC)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0A0B0E; --panel:#10131A; --line:#1E2430; --text:#E2E8F0; --muted:#8793A6;
+  --cyan:#00F2FE; --ok:#10F2A0; --hold:#FFB454;
+  --serif:'Newsreader',Georgia,serif; --sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.6 var(--sans)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.brand{font:500 22px var(--serif);letter-spacing:.01em}
+.brand span{color:var(--muted);font-size:15px;margin-left:10px;font-family:var(--sans)}
+nav .links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+nav .links a{text-decoration:none}
+nav .links a:hover{color:var(--text)}
+.btn{background:var(--cyan);color:#001417;border:0;border-radius:6px;padding:11px 18px;font:600 14px var(--sans);cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--cyan)}
+
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:72px 0 56px}
+h1{font:400 clamp(38px,5.4vw,64px)/1.05 var(--serif);margin:0 0 20px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:46ch;margin:0 0 28px}
+.status{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:99px;padding:7px 14px;font-size:14px;margin-bottom:26px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(16,242,160,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(16,242,160,0)}100%{box-shadow:0 0 0 0 rgba(16,242,160,0)}}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+
+.radar{width:100%;max-width:420px;margin:0 auto;display:block}
+.sweep{transform-origin:200px 200px;animation:spin 7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.ledger{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ledger div{padding:22px 20px;border-left:1px solid var(--line)}
+.ledger div:first-child{border-left:0;padding-left:0}
+.ledger dt{color:var(--muted);font-size:14px;margin:0 0 4px}
+.ledger dd{margin:0;font:400 30px/1.2 var(--serif);font-variant-numeric:tabular-nums}
+.ledger small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+
+section{padding:64px 0 0}
+h2{font:400 32px/1.15 var(--serif);margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 28px;max-width:58ch}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:24px}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th{font-weight:500;color:var(--muted);text-align:left;padding:0 0 10px}
+td{padding:11px 0;border-top:1px solid var(--line)}
+td:last-child,th:last-child{text-align:right}
+.tag{font-weight:600}.tag.ok{color:var(--ok)}.tag.hold{color:var(--hold)}
+.scroll{overflow-x:auto}
+
+label{display:block;font-size:14px;color:var(--muted);margin-bottom:10px}
+input[type=range]{width:100%;accent-color:var(--cyan)}
+.amt{font:400 38px var(--serif);margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.verdict{margin-top:16px;padding:14px 16px;border-radius:8px;border:1px solid var(--line);font-size:15px;min-height:76px}
+.verdict.ok{border-color:rgba(16,242,160,.5)}.verdict.hold{border-color:rgba(255,180,84,.6)}
+.verdict b{display:block;margin-bottom:2px}
+
+.prop{display:grid;grid-template-columns:.9fr 1.1fr;gap:0;overflow:hidden;padding:0}
+.prop .art{background:linear-gradient(180deg,#0E1522,#0A0B0E);display:flex;align-items:flex-end;justify-content:center;padding:28px 20px 0;min-height:300px}
+.prop .body{padding:28px}
+.prop h3{font:400 28px var(--serif);margin:0 0 4px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px;margin:20px 0 24px}
+.facts dt{color:var(--muted);font-size:13px}.facts dd{margin:0;font-variant-numeric:tabular-nums}
+.claim{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.claim output{font:400 22px var(--serif);font-variant-numeric:tabular-nums}
+.toast{margin-top:12px;font-size:14px;color:var(--ok);min-height:22px}
+footer{margin-top:72px;border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:13px;max-width:none}
+footer p{max-width:80ch;margin:0 0 8px}
+
+@media(max-width:860px){
+  .hero,.two,.prop{grid-template-columns:1fr}
+  .ledger{grid-template-columns:1fr 1fr}
+  .ledger div:nth-child(3){border-left:0;padding-left:0}
+  .ledger div:nth-child(n+3){border-top:1px solid var(--line)}
+  nav .links{display:none}
+  .hero{padding-top:44px}
+}
+@media(prefers-reduced-motion:reduce){.sweep,.dot{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="brand">KAWACH<span>Sentinel Real Estate</span></div>
+    <div class="links"><a href="#firewall">Firewall</a><a href="#assets">Properties</a><a href="#yield">Rental yield</a></div>
+    <button class="btn ghost" type="button" id="connect">Connect wallet</button>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <div class="status"><span class="dot" aria-hidden="true"></span>Sentinel firewall operational</div>
+      <h1>Commercial property you can hold, with a guard on every transfer.</h1>
+      <p class="lede">KWC represents fractional ownership of verified commercial real estate. Rent is paid in stablecoins, and unusual transfers are held for review before they can drain a wallet.</p>
+      <div class="cta"><button class="btn" type="button" onclick="document.getElementById('assets').scrollIntoView({behavior:'smooth'})">View properties</button><button class="btn ghost" type="button" onclick="document.getElementById('firewall').scrollIntoView({behavior:'smooth'})">Test the firewall</button></div>
+    </div>
+    <svg class="radar" viewBox="0 0 400 400" role="img" aria-label="Sentinel radar scanning transfers">
+      <defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#00F2FE" stop-opacity=".16"/><stop offset="1" stop-color="#00F2FE" stop-opacity="0"/></radialGradient>
+      <linearGradient id="s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#00F2FE" stop-opacity="0"/><stop offset="1" stop-color="#00F2FE" stop-opacity=".45"/></linearGradient></defs>
+      <circle cx="200" cy="200" r="190" fill="url(#g)"/>
+      <g fill="none" stroke="#1E2430"><circle cx="200" cy="200" r="190"/><circle cx="200" cy="200" r="140"/><circle cx="200" cy="200" r="90"/><circle cx="200" cy="200" r="40"/><path d="M10 200h380M200 10v380"/></g>
+      <circle cx="200" cy="200" r="140" fill="none" stroke="#00F2FE" stroke-opacity=".55" stroke-dasharray="3 7"/>
+      <g class="sweep"><path d="M200 200 L390 200 A190 190 0 0 0 355 105 Z" fill="url(#s)"/><path d="M200 200H390" stroke="#00F2FE" stroke-opacity=".8"/></g>
+      <g fill="#10F2A0"><circle cx="120" cy="150" r="4"/><circle cx="262" cy="118" r="4"/><circle cx="150" cy="268" r="4"/><circle cx="296" cy="236" r="4"/><circle cx="238" cy="296" r="4"/></g>
+      <circle cx="318" cy="150" r="6" fill="#FFB454"/><circle cx="318" cy="150" r="13" fill="none" stroke="#FFB454" stroke-opacity=".6"/>
+      <text x="334" y="132" fill="#FFB454" font-size="12" font-family="Plus Jakarta Sans,sans-serif">Held</text>
+      <text x="200" y="205" fill="#E2E8F0" font-size="15" text-anchor="middle" font-family="Newsreader,serif">KWC</text>
+    </svg>
+  </header>
+
+  <dl class="ledger">
+    <div><dt>Value locked</dt><dd>$10,000,000</dd><small>Appraised, 1 KWC = $1.00 at issue</small></div>
+    <div><dt>Rental yield (APY)</dt><dd>6.4%</dd><small>Trailing 12 months, sample</small></div>
+    <div><dt>Verified holders</dt><dd>1,284</dd><small>KYC and AML complete</small></div>
+    <div><dt>Transfers held</dt><dd>3</dd><small>Awaiting guardian review</small></div>
+  </dl>
+
+  <section id="firewall">
+    <h2>What the firewall does</h2>
+    <p class="sub">Each wallet has a running average of what it normally sends. A transfer more than five times that average goes into escrow, and a guardian approves it or returns it.</p>
+    <div class="two">
+      <div class="panel">
+        <label for="amt">Try a transfer from a wallet that usually sends about 12,000 KWC</label>
+        <div class="amt"><output id="amtOut">8,000</output> KWC</div>
+        <input id="amt" type="range" min="1000" max="200000" step="1000" value="8000">
+        <div class="verdict ok" id="verdict" aria-live="polite"></div>
+      </div>
+      <div class="panel scroll">
+        <table>
+          <thead><tr><th>Wallet</th><th>Amount (KWC)</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>0x4a1f…c2e9</td><td>9,500</td><td><span class="tag ok">Cleared</span></td></tr>
+            <tr><td>0x91bd…07aa</td><td>14,200</td><td><span class="tag ok">Cleared</span></td></tr>
+            <tr><td>0xe3c0…5d18</td><td>410,000</td><td><span class="tag hold">Held</span></td></tr>
+            <tr><td>0x7720…b9f4</td><td>6,800</td><td><span class="tag ok">Cleared</span></td></tr>
+            <tr><td>0x0cd5…31ab</td><td>22,000</td><td><span class="tag ok">Cleared</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="assets">
+    <h2>Properties</h2>
+    <p class="sub">Each property sits in its own legal entity. Tokens represent a share of that entity.</p>
+    <article class="panel prop">
+      <div class="art">
+        <svg viewBox="0 0 240 260" width="240" role="img" aria-label="Illustration of The Apex Commercial Plaza">
+          <g fill="#0F1826" stroke="#00F2FE" stroke-opacity=".7">
+            <rect x="70" y="40" width="100" height="220"/><rect x="30" y="120" width="40" height="140"/><rect x="170" y="150" width="40" height="110"/>
+          </g>
+          <g fill="#00F2FE" fill-opacity=".55" id="win"></g>
+          <path d="M120 40V14" stroke="#E2E8F0"/><circle cx="120" cy="12" r="3" fill="#10F2A0"/>
+        </svg>
+      </div>
+      <div class="body">
+        <h3>The Apex Commercial Plaza</h3>
+        <div style="color:var(--muted)">Mixed-use office and retail, sample listing</div>
+        <dl class="facts">
+          <div><dt>Appraised value</dt><dd>$10,000,000</dd></div>
+          <div><dt>Occupancy</dt><dd>94%</dd></div>
+          <div><dt>Tokens issued</dt><dd>10,000,000 KWC</dd></div>
+          <div><dt>Rent paid in</dt><dd>USDC, monthly</dd></div>
+        </dl>
+        <div class="claim" id="yield">
+          <div><div style="color:var(--muted);font-size:13px">Unclaimed rent</div><output id="owed">$0.00</output></div>
+          <button class="btn" type="button" id="claim">Claim rent</button>
+        </div>
+        <div class="toast" id="toast" aria-live="polite"></div>
+      </div>
+    </article>
+  </section>
+
+  <footer>
+    <p>Design preview with sample figures. Not connected to a live contract and not an offer to sell securities.</p>
+    <p>Tokens can only move between wallets that have passed KYC and AML checks.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var fmt=function(n){return n.toLocaleString('en-US')};
+  var amt=document.getElementById('amt'),out=document.getElementById('amtOut'),v=document.getElementById('verdict');
+  function check(){
+    var n=+amt.value,limit=12000*5;
+    out.textContent=fmt(n);
+    if(n>limit){v.className='verdict hold';v.innerHTML='<b style="color:var(--hold)">Held in escrow</b>This is above the 60,000 KWC limit for this wallet. A guardian will approve it or return it.';}
+    else{v.className='verdict ok';v.innerHTML='<b style="color:var(--ok)">Cleared</b>This is within the limit of 60,000 KWC for this wallet, so it goes through now.';}
+  }
+  amt.addEventListener('input',check);check();
+
+  var g='';for(var r=0;r<12;r++)for(var c=0;c<4;c++){if((r*7+c*3)%5)g+='<rect x="'+(78+c*23)+'" y="'+(52+r*16)+'" width="12" height="8"/>';}
+  document.getElementById('win').innerHTML=g;
+
+  var owed=0,o=document.getElementById('owed'),t=document.getElementById('toast');
+  setInterval(function(){owed+=0.0183;o.textContent='$'+owed.toFixed(2)},1000);
+  document.getElementById('claim').addEventListener('click',function(){
+    t.textContent=owed>0.01?'Claimed $'+owed.toFixed(2)+' USDC (preview only).':'Nothing to claim yet.';
+    if(owed>0.01){owed=0;o.textContent='$0.00'}
+  });
+  document.getElementById('connect').addEventListener('click',function(){this.textContent='Preview only';});
+})();
+</script>
+</body>
+</html>
